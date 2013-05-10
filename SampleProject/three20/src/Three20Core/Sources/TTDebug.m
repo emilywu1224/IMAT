@@ -16,7 +16,7 @@
 
 #import "Three20Core/TTDebug.h"
 
-#ifdef DEBUG
+#ifdef DEBUG_TOUCHES
 
 #if TARGET_IPHONE_SIMULATOR
 
