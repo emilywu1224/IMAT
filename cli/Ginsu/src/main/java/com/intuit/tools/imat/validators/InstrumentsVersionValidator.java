@@ -30,7 +30,7 @@ public class InstrumentsVersionValidator implements IParameterValidator {
 	public void validate(String name, String value) throws ParameterException {
 		if (value == null || value.equals("")) {
 			throw new ParameterException("IMAT could not find instruments on " +
-					"your system. Please install the latest version of XCode.");
+					"your system. Please update the instruments location in /<imat_path>/config/imat.properties.");
 		}
 		if (value.compareTo(MIN_INSTRUMENTS_VERSION) < 0) {
 			throw new ParameterException("The minimum supported version of " +

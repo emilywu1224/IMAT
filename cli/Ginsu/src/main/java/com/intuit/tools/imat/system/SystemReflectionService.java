@@ -15,6 +15,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.*;
+import java.io.*;
+
+import com.intuit.tools.imat.AppContext;
 
 /**
  * @author rpfeffer
@@ -26,14 +30,30 @@ import java.io.IOException;
 public class SystemReflectionService {
 
 	private static final String KEY = "CFBundleShortVersionString";
-	private static final String DEFAULT_INSTRUMENTS_LOCATION = File.separator+"Developer"+File.separator+"Applications"+File.separator+"Instruments.app";
 	private static final String VERSION_PLIST_PATH = "Contents"+File.separator+"version.plist";
 	private static final String START_TAG = "<string>";
 	private static final String END_TAG = "</string>";
+	private static final String TARGET_RESOURCES_DIR = "target"
+			+ File.separator + "classes" + File.separator;
 	
-	public String getSystemInstrumentsVersion() {
+	public String getSystemInstrumentsVersion()   {
+		
+		String instrumentsLocation= "";
 		String versionString = "";
-		File versionFile = new File(DEFAULT_INSTRUMENTS_LOCATION + File.separator + VERSION_PLIST_PATH);
+		String configFileName ="config" + File.separator + "imat.properties";
+		String configFile = "";
+		Properties properties = new Properties();
+
+		// read instruments location from the properties file
+		try {
+			configFile = this.getAppResourceFile(
+					configFileName).getCanonicalPath();
+			properties.load(new FileInputStream(configFile));
+		} catch (IOException e) {
+			System.err.println("Caught IOException: " + e.getMessage());
+		}
+		instrumentsLocation = properties.getProperty("INSTRUMENTS_LOCATION");
+		File versionFile = new File(instrumentsLocation + File.separator + VERSION_PLIST_PATH);
 		if (versionFile.exists()) {
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(versionFile));
@@ -58,4 +78,20 @@ public class SystemReflectionService {
 		//	Instruments that we would like to use.
 		return versionString;
 	}
+
+	public File getAppResourceFile(String fileName)
+			throws FileNotFoundException {
+		String homeDir = AppContext.INSTANCE.getProperty(AppContext.APP_HOME_KEY)
+				+ File.separator;
+		File resourceFile = new File(homeDir + fileName);
+		if (!resourceFile.exists()) {	
+			resourceFile = new File(TARGET_RESOURCES_DIR + fileName);
+		}
+		if (!resourceFile.exists()) {
+			throw new FileNotFoundException(
+					"Could not find Application Resource file: " + fileName);
+		}
+		return resourceFile;
+	}
+
 }
