@@ -1,0 +1,208 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*******************************************************************************
+<span class='line'>  2</span> * Copyright (c) 2011 Intuit, Inc.
+<span class='line'>  3</span> * All rights reserved. This program and the accompanying materials
+<span class='line'>  4</span> * are made available under the terms of the Eclipse Public License v1.0
+<span class='line'>  5</span> * which accompanies this distribution, and is available at
+<span class='line'>  6</span> * http://www.opensource.org/licenses/eclipse-1.0.php
+<span class='line'>  7</span> * 
+<span class='line'>  8</span> * Contributors:
+<span class='line'>  9</span> *     Intuit, Inc - initial API and implementation
+<span class='line'> 10</span> *******************************************************************************/</span><span class="WHIT">
+<span class='line'> 11</span> 
+<span class='line'> 12</span> </span><span class="COMM">/**
+<span class='line'> 13</span>  * Checks for Strict equality. Depending on if you are using objects or 
+<span class='line'> 14</span>  * primitives, this will work differently. JS is pass by reference for objects, 
+<span class='line'> 15</span>  * so if you are testing that two objects are equal, this will only work if they 
+<span class='line'> 16</span>  * are the same reference. For literals, this is simply checking that they 
+<span class='line'> 17</span>  * evaluate to the same value.
+<span class='line'> 18</span>  *
+<span class='line'> 19</span>  * @param expected The expected value we are testing
+<span class='line'> 20</span>  * @param received The value we expected to see
+<span class='line'> 21</span>  * @param message (optional) The message to throw if expected did not match 
+<span class='line'> 22</span>  * received
+<span class='line'> 23</span>  *
+<span class='line'> 24</span>  * @throws An exception string with the given parameter message if expected was 
+<span class='line'> 25</span>  * not strictly equal to received.
+<span class='line'> 26</span>  */</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT"> </span><span class="COMM">/*
+<span class='line'> 28</span>  * TODO: Create an assertEqualObjects function that calls isEqual on the 
+<span class='line'> 29</span>  * expected object. Consider underscore.js
+<span class='line'> 30</span>  */</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">assertEquals</span><span class="PUNC">(</span><span class="NAME">received</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">expected</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">message</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">received</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">expected</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">message</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">    	</span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Expected "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">expected</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" (type: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">expected</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">")"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'> 35</span>     		</span><span class="STRN">" but received "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">received</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" (type: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">received</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'> 36</span>     		</span><span class="STRN">"). Check for value and type."</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">    </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">IMAT.AssertionException</span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span> </span><span class="COMM">/**
+<span class='line'> 43</span>  * Checks for Strict inequality. Depending on if you are using objects or 
+<span class='line'> 44</span>  * primitives, this will work differently. JS is pass by reference for objects, 
+<span class='line'> 45</span>  * so if you are testing that two objects are not equal, this will throw an 
+<span class='line'> 46</span>  * exception if they are the same reference. For literals, this is strictly 
+<span class='line'> 47</span>  * checking to make sure they are different values.
+<span class='line'> 48</span>  *
+<span class='line'> 49</span>  * @param expected The expected value we are testing
+<span class='line'> 50</span>  * @param received The value we expected to see
+<span class='line'> 51</span>  * @param message (optional) The message to throw if expected matched received
+<span class='line'> 52</span>  *
+<span class='line'> 53</span>  * @throws An exception string with the given parameter message if expected  
+<span class='line'> 54</span>  * was strictly equal to received.
+<span class='line'> 55</span>  */</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">assertNotEquals</span><span class="PUNC">(</span><span class="NAME">received</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">expected</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">message</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">received</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">expected</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">message</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">    	</span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Expected "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">expected</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" (type: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">expected</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">")"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'> 60</span>     		</span><span class="STRN">" but received "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">received</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" (type: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">received</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'> 61</span>     		</span><span class="STRN">"). Check for value and type."</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">    </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">IMAT.AssertionException</span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 66</span> 
+<span class='line'> 67</span> 
+<span class='line'> 68</span> 
+<span class='line'> 69</span> </span><span class="COMM">/**
+<span class='line'> 70</span>  * Checks that the expression evaluates to true.
+<span class='line'> 71</span>  *
+<span class='line'> 72</span>  * @param expression The expression value we are checking
+<span class='line'> 73</span>  * @param message (optional) The message to throw if expression does not 
+<span class='line'> 74</span>  * evaluate to true
+<span class='line'> 75</span>  *
+<span class='line'> 76</span>  * @throws an error message if expression does not evaluate to true.
+<span class='line'> 77</span>  */</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">assertTrue</span><span class="PUNC">(</span><span class="NAME">expression</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">message</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">expression</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">message</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">    	</span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Assertion failed when expression was: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">expression</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'> 82</span>     		</span><span class="STRN">" type: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">expression</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> 
+<span class='line'> 84</span>     </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">IMAT.AssertionException</span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 87</span> 
+<span class='line'> 88</span> </span><span class="COMM">/**
+<span class='line'> 89</span>  * Checks that the expression evaluates to false.
+<span class='line'> 90</span>  *
+<span class='line'> 91</span>  * @param expression The expression value we are checking
+<span class='line'> 92</span>  * @param message (optional) The message to throw if expression does not 
+<span class='line'> 93</span>  * evaluate to false
+<span class='line'> 94</span>  *
+<span class='line'> 95</span>  * @throws an error message if expression does not evaluate to false.
+<span class='line'> 96</span>  */</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">assertFalse</span><span class="PUNC">(</span><span class="NAME">expression</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">message</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">  </span><span class="NAME">assertTrue</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">expression</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">message</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>100</span> 
+<span class='line'>101</span> </span><span class="COMM">/**
+<span class='line'>102</span>  * Checks that thingie does not evaluate to null or any of its equivalents 
+<span class='line'>103</span>  * (i.e. undefined). Note that this also handles cases where UIAElementNil is 
+<span class='line'>104</span>  * returned. However, it does not consider the value false to be an equivalent 
+<span class='line'>105</span>  * of null. For that use the assertFalse() function.
+<span class='line'>106</span>  *
+<span class='line'>107</span>  * @param thingie The expected value we are testing
+<span class='line'>108</span>  * @param message (optional) The message to throw if thingie evaluated to a null 
+<span class='line'>109</span>  * equivalents
+<span class='line'>110</span>  *
+<span class='line'>111</span>  * @throws an error message if expected did not match received
+<span class='line'>112</span>  */</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">assertNotNull</span><span class="PUNC">(</span><span class="NAME">thingie</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">message</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">thingie</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">thingie</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"undefined"</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">thingie</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">UIAElementNil</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">message</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">    	</span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Expected a non null object. Object was "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">thingie</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">    </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">IMAT.AssertionException</span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>121</span> 
+<span class='line'>122</span> </span><span class="COMM">/**
+<span class='line'>123</span>  * Checks that two values from a sort are in an ascending relationship.
+<span class='line'>124</span>  *
+<span class='line'>125</span>  * @param lowValue The value that should be the lower of the two values.
+<span class='line'>126</span>  * @param highValue The value that should be the higher of the two values.
+<span class='line'>127</span>  *
+<span class='line'>128</span>  * @throws an error if the values are not in ascending order.
+<span class='line'>129</span>  */</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">assertAscending</span><span class="PUNC">(</span><span class="NAME">lowValue</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">highValue</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">msg</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">lowValue</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">highValue</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">msg</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" Sorted values are not in ascending order. highValue "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'>135</span> 			</span><span class="NAME">highValue</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" is not higher than lowValue "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">lowValue</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>136</span> 		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">IMAT.AssertionException</span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>139</span> 
+<span class='line'>140</span> </span><span class="COMM">/**
+<span class='line'>141</span>  * Checks that two values from a sort are in an descending relationship.
+<span class='line'>142</span>  *
+<span class='line'>143</span>  * @param highValue The value that should be the higher of the two values.
+<span class='line'>144</span>  * @param lowValue The value that should be the lower of the two values.
+<span class='line'>145</span>  *
+<span class='line'>146</span>  * @throws an error if the values are not in descending order.
+<span class='line'>147</span>  */</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">assertDescending</span><span class="PUNC">(</span><span class="NAME">highValue</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">lowValue</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">msg</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">lowValue</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">highValue</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">msg</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" Sorted values are not in descending order. lowValue "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'>153</span> 			</span><span class="NAME">lowValue</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" is not lower than highValue "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">highValue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">IMAT.AssertionException</span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>157</span> 
+<span class='line'>158</span> </span><span class="COMM">/**
+<span class='line'>159</span>  * For keeping track of manual tests that have not been automated yet, this will
+<span class='line'>160</span>  * log a message stating that a given test has passed manually. This is meant to
+<span class='line'>161</span>  * be called directly within a test.
+<span class='line'>162</span>  *
+<span class='line'>163</span>  *  @param {string} message
+<span class='line'>164</span>  * 					An optional message to log with the manual pass message. 
+<span class='line'>165</span>  */</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">manualPass</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"MANUAL: This test is marked as Passing during manual execution."</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">		</span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> 
+<span class='line'>172</span> 	</span><span class="NAME">IMAT.log_info</span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>174</span> 
+<span class='line'>175</span> </span><span class="COMM">/**
+<span class='line'>176</span>  * For keeping track of manual tests that have not been automated yet, this will
+<span class='line'>177</span>  * log a message stating that a given test has failed manually. This is meant to
+<span class='line'>178</span>  * be called directly within a test.
+<span class='line'>179</span>  *
+<span class='line'>180</span>  *  @param {string} message
+<span class='line'>181</span>  * 					An optional message to log with the manual fail message. 
+<span class='line'>182</span>  */</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">manualFail</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"MANUAL: This test is marked as failing during manual execution."</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">		</span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>188</span> 	</span><span class="PUNC">}</span><span class="WHIT"> 
+<span class='line'>189</span> 	</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">IMAT.AssertionException</span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>191</span> 
+<span class='line'>192</span> </span><span class="COMM">/**
+<span class='line'>193</span>  * For keeping track of manual tests that have not been automated yet, and still
+<span class='line'>194</span>  * need to be run manually. This is meant to be called directly within a test.
+<span class='line'>195</span>  * Logs a warning message since this test is neither a passing for a failing 
+<span class='line'>196</span>  * test.
+<span class='line'>197</span>  */</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">toBeExecutedManually</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">	</span><span class="NAME">IMAT.log_warning</span><span class="PUNC">(</span><span class="STRN">"MANUAL: To Be Executed."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="PUNC">}</span></pre></body></html>

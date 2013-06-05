@@ -1,0 +1,105 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*******************************************************************************
+<span class='line'>  2</span> * Copyright (c) 2011 Intuit, Inc.
+<span class='line'>  3</span> * All rights reserved. This program and the accompanying materials
+<span class='line'>  4</span> * are made available under the terms of the Eclipse Public License v1.0
+<span class='line'>  5</span> * which accompanies this distribution, and is available at
+<span class='line'>  6</span> * http://www.opensource.org/licenses/eclipse-1.0.php
+<span class='line'>  7</span> * 
+<span class='line'>  8</span> * Contributors:
+<span class='line'>  9</span> *     Intuit, Inc - initial API and implementation
+<span class='line'> 10</span> *******************************************************************************/</span><span class="WHIT">
+<span class='line'> 11</span> 
+<span class='line'> 12</span> </span><span class="COMM">/**
+<span class='line'> 13</span>  * 	@namespace Holds log level constants for the framework. Set 
+<span class='line'> 14</span>  * {@link IMAT.settings.logLevel} to one of the Constants to throttle the 
+<span class='line'> 15</span>  * logging threashold.
+<span class='line'> 16</span>  */</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="NAME">IMAT.logLevels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 19</span> 	 * When {@link IMAT.settings.logLevel} is set to LOG_OFF, nothing is logged.
+<span class='line'> 20</span> 	 * @constant
+<span class='line'> 21</span> 	 * @type number 
+<span class='line'> 22</span> 	 */</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">	</span><span class="NAME">LOG_OFF</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	
+<span class='line'> 25</span> 	</span><span class="COMM">/**
+<span class='line'> 26</span> 	 * When {@link IMAT.settings.logLevel} is set to LOG_ERROR, only errors are
+<span class='line'> 27</span> 	 * logged. 
+<span class='line'> 28</span> 	 * @constant 
+<span class='line'> 29</span> 	 * @type number 
+<span class='line'> 30</span> 	 */</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="NAME">LOG_ERROR</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">	
+<span class='line'> 33</span> 	</span><span class="COMM">/**
+<span class='line'> 34</span> 	 * When {@link IMAT.settings.logLevel} is set to LOG_WARN, only errors and
+<span class='line'> 35</span> 	 * warning messages are logged. 
+<span class='line'> 36</span> 	 * @constant
+<span class='line'> 37</span> 	 * @type number 
+<span class='line'> 38</span> 	 */</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="NAME">LOG_WARN</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">	
+<span class='line'> 41</span> 	</span><span class="COMM">/**
+<span class='line'> 42</span> 	 * When {@link IMAT.settings.logLevel} is set to LOG_INFO, only errors, 
+<span class='line'> 43</span> 	 * warnings, and info messages are logged. This is good for running your 
+<span class='line'> 44</span> 	 * tests in an unattended state, because it provides a good level of 
+<span class='line'> 45</span> 	 * granularoty in order to adequately triage your tests when things go 
+<span class='line'> 46</span> 	 * wrong.
+<span class='line'> 47</span> 	 * @constant
+<span class='line'> 48</span> 	 * @type number 
+<span class='line'> 49</span> 	 */</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="NAME">LOG_INFO</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">	
+<span class='line'> 52</span> 	</span><span class="COMM">/**
+<span class='line'> 53</span> 	 * When {@link IMAT.settings.logLevel} is set to LOG_DEBUG, only errors, 
+<span class='line'> 54</span> 	 * warnings, info, and debug messages are logged. This is good for 
+<span class='line'> 55</span> 	 * developing your tests.
+<span class='line'> 56</span> 	 * @constant
+<span class='line'> 57</span> 	 * @type number 
+<span class='line'> 58</span> 	 */</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">	</span><span class="NAME">LOG_DEBUG</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">4</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">	
+<span class='line'> 61</span> 	</span><span class="COMM">/**
+<span class='line'> 62</span> 	 * When {@link IMAT.settings.logLevel} is set to LOG_TRACE, log everything.
+<span class='line'> 63</span> 	 * It is recommended you ony use this when you are running into problems
+<span class='line'> 64</span> 	 * that you cannot track down.  
+<span class='line'> 65</span> 	 * @constant
+<span class='line'> 66</span> 	 * @type number 
+<span class='line'> 67</span> 	 */</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">	</span><span class="NAME">LOG_TRACE</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">5</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> 
+<span class='line'> 71</span> </span><span class="COMM">/**
+<span class='line'> 72</span>  * 	@namespace Holds state constants for the framework to be used when validating
+<span class='line'> 73</span>  *  common states of a given view class. 
+<span class='line'> 74</span>  * 	@see IMAT.BaseView#validate
+<span class='line'> 75</span>  */</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="NAME">IMAT.states</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 78</span> 	 * String constant signifying the initial state of a view class. By 
+<span class='line'> 79</span> 	 * convention this state should be used in the state validator called within
+<span class='line'> 80</span> 	 * the constructor (i.e. initialize()). 
+<span class='line'> 81</span> 	 * @constant
+<span class='line'> 82</span> 	 * @type String 
+<span class='line'> 83</span> 	 */</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="NAME">INITIAL</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"initial"</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> 
+<span class='line'> 87</span> </span><span class="COMM">/**
+<span class='line'> 88</span>  * 	@namespace Used to determine which platform to run against. This is purely
+<span class='line'> 89</span>  * 	forward looking in case we support more than one platform in the future. 
+<span class='line'> 90</span>  */</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="NAME">IMAT.platforms</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 93</span> 	 * Support the iOS platform 
+<span class='line'> 94</span> 	 * @constant
+<span class='line'> 95</span> 	 * @type number. 
+<span class='line'> 96</span> 	 */</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">	</span><span class="NAME">IOS</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>
