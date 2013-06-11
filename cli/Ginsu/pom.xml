@@ -14,11 +14,6 @@ Intuit Inc - Initial contribution
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.intuit.code.build</groupId>
-		<artifactId>cic-parent-pom</artifactId>
-		<version>1.0.15</version>
-	</parent>
 	<description>The Intuit Mobile Automation Toolkit picks up where the other
 	mobile automation tools leave off. Currently it only supports iOS Automation
 	in conjunction with the tools provided by Apple's iOS SDK.'
@@ -39,10 +34,6 @@ Intuit Inc - Initial contribution
 	<url>http://maven.apache.org</url>
 	<inceptionYear>2011</inceptionYear>
 
-	<ciManagement>
-		<system>Hudson</system>
-		<url>http://forge.code.intuit.com/hudson/view/Ginsu/</url>
-	</ciManagement>
 	<licenses>
 		<license>
 			<name>Eclipse Public License v1.0 (EPL)</name>
@@ -58,11 +49,6 @@ Intuit Inc - Initial contribution
 			of the cic-parent-pom need to override this -->
 		<projectURLName>ginsu</projectURLName>
 	</properties>
-	<scm>
-		<connection>scm:svn:https://code.intuit.com/svn/repos/ginsu/tags/IMAT-1.0.0</connection>
-		<developerConnection>scm:svn:https://code.intuit.com/svn/repos/ginsu/tags/IMAT-1.0.0</developerConnection>
-		<url>https://code.intuit.com/integration/viewvc/viewvc.cgi/tags/IMAT-1.0.0?root=ginsu&amp;system=exsy1003</url>
-	</scm>
 	<build>
 		<resources>
 			<resource>
@@ -186,6 +172,16 @@ Intuit Inc - Initial contribution
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.15</version>
+			 <exclusions>
+                <exclusion>
+                    <groupId>com.sun.jmx</groupId>
+                    <artifactId>jmxri</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jdmk</groupId>
+                    <artifactId>jmxtools</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
@@ -219,5 +215,17 @@ Intuit Inc - Initial contribution
 			<version>3.0</version>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+    	<dependency>
+     		<groupId>javax.jms</groupId>
+     		<artifactId>jms</artifactId>
+            <version>1.1</version>
+   		</dependency>
+   	</dependencies>
+	<repositories>
+    	<repository>
+      		<id>repository.jboss.org-public</id>
+     		<name>JBoss.org Maven repository</name>
+      		<url>https://repository.jboss.org/nexus/content/groups/public</url>
+       </repository>  
+    </repositories>
 </project>
