@@ -1,0 +1,505 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*******************************************************************************
+<span class='line'>  2</span> * Copyright (c) 2011 Intuit, Inc.
+<span class='line'>  3</span> * All rights reserved. This program and the accompanying materials
+<span class='line'>  4</span> * are made available under the terms of the Eclipse Public License v1.0
+<span class='line'>  5</span> * which accompanies this distribution, and is available at
+<span class='line'>  6</span> * http://www.opensource.org/licenses/eclipse-1.0.php
+<span class='line'>  7</span> * 
+<span class='line'>  8</span> * Contributors:
+<span class='line'>  9</span> *     Intuit, Inc - initial API and implementation
+<span class='line'> 10</span> *******************************************************************************/</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="WHIT"> 
+<span class='line'> 12</span> </span><span class="COMM">/**
+<span class='line'> 13</span>  * @class The Base view is responsible for a few things...
+<span class='line'> 14</span>  * &lt;ol> 
+<span class='line'> 15</span>  *		&lt;li>It validates the state of the current view context while providing
+<span class='line'> 16</span>  * 		a common logging patterns and screen capture.&lt;/li>
+<span class='line'> 17</span>  *		&lt;li>It validates the state of the current view context.&lt;/li> 
+<span class='line'> 18</span>  *		&lt;li>It holds references to the global application and target objects 
+<span class='line'> 19</span>  * 		defined by Apple's UIAutomation framework.&lt;/li>
+<span class='line'> 20</span>  * 		&lt;li>Provides base functionality for all views to get access to elements
+<span class='line'> 21</span>  * 		on the screen.&lt;/li>
+<span class='line'> 22</span>  *		&lt;li>Does common things that all other views miight need to do like 
+<span class='line'> 23</span>  * 		Dismiss the keyboard or wait for some sort of network activity to 
+<span class='line'> 24</span>  * 		complete.&lt;/li>
+<span class='line'> 25</span>  * &lt;/ol>	
+<span class='line'> 26</span>  *
+<span class='line'> 27</span>  * All views that automate parts of the app should derive from this class.
+<span class='line'> 28</span>  */</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="NAME">IMAT.BaseView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Class.create</span><span class="PUNC">(</span><span class="COMM">/** @lends IMAT.BaseView# */</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">	
+<span class='line'> 31</span> 	</span><span class="COMM">/**
+<span class='line'> 32</span> 	 * The constructor called when invoking "new" on this class object.
+<span class='line'> 33</span> 	 * @ignore 
+<span class='line'> 34</span> 	 */</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">		</span><span class="NAME">this.viewName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">		
+<span class='line'> 39</span> 		</span><span class="COMM">// Now these global objects are encapsulated as objects of the base class.</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">		</span><span class="NAME">this.target</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">		</span><span class="NAME">this.app</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">		</span><span class="NAME">this.mainWin</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">		</span><span class="NAME">this.refreshAppContext</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">		</span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"Base View initialized: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.target</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.app</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'> 45</span> 			</span><span class="STRN">" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.mainWin</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">		
+<span class='line'> 47</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	
+<span class='line'> 49</span> 	</span><span class="COMM">/**
+<span class='line'> 50</span> 	 * Convenience method for instances in which the view needs a refreshed view 
+<span class='line'> 51</span> 	 * of the application context. This will refresh the target, app and mainWin 
+<span class='line'> 52</span> 	 * variables to the current context of the application.
+<span class='line'> 53</span> 	 */</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	</span><span class="NAME">refreshAppContext</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">		</span><span class="NAME">this.target</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">UIATarget.localTarget</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">		</span><span class="NAME">this.app</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.target.frontMostApp</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">		</span><span class="NAME">this.mainWin</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.app.mainWindow</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">	
+<span class='line'> 61</span> 	</span><span class="COMM">/**
+<span class='line'> 62</span> 	 * Handles State validation logging and screen capturing leveraging a given 
+<span class='line'> 63</span> 	 * validator function.
+<span class='line'> 64</span> 	 * 
+<span class='line'> 65</span> 	 * @param {string} stateName 
+<span class='line'> 66</span> 	 * 					The state you want to validate
+<span class='line'> 67</span> 	 * @param {boolean} isTransientState
+<span class='line'> 68</span> 	 * 					true if the state you are validating is transient due to 
+<span class='line'> 69</span> 	 * 					asynchronous changes in the app (eg. due to network 
+<span class='line'> 70</span> 	 * 					callbacks). If the validation throws an exception when 
+<span class='line'> 71</span> 	 * 					this true, the exception will be ignored and the 
+<span class='line'> 72</span> 	 * 					automation will be allowed to move on. This can happen 
+<span class='line'> 73</span> 	 * 					if the asynchronous change causes the app to transition 
+<span class='line'> 74</span> 	 * 					out of that state before the validation can finish.
+<span class='line'> 75</span> 	 * @param {IMAT.BaseView} view
+<span class='line'> 76</span> 	 *  				The target view to validate. This will become the first
+<span class='line'> 77</span> 	 *					parameter passed to the inner validation function passed
+<span class='line'> 78</span> 	 *  				to this method (validatorFunc).
+<span class='line'> 79</span> 	 * @param {function} validatorFunc 
+<span class='line'> 80</span> 	 * 					The callback function defining the valid state. This 
+<span class='line'> 81</span> 	 * 					function should expect a view as the first parameter of 
+<span class='line'> 82</span> 	 * 					the function and, optionally, an args object which, if 
+<span class='line'> 83</span> 	 * 					defined will be passed to validatorFunc as the second 
+<span class='line'> 84</span> 	 * 					parameter.
+<span class='line'> 85</span> 	 * @param {object} args 
+<span class='line'> 86</span> 	 * 					Optional. If defined, they will be passed to the 
+<span class='line'> 87</span> 	 * 					validator function for dynamic state validation.
+<span class='line'> 88</span> 	 *
+<span class='line'> 89</span> 	 * @throws An exception of type {@type String} if there is a script error.
+<span class='line'> 90</span> 	 * @throws An exception of Type {@type IMAT.AssertionException} if an 
+<span class='line'> 91</span> 	 * 		assertion does not pass. 
+<span class='line'> 92</span> 	 */</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">	</span><span class="NAME">validateState</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">stateName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">isTransientState</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">view</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">validatorFunc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">validationLogMessage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"VALIDATE "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.viewName</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">": "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">stateName</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" state."</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">		</span><span class="NAME">IMAT.log_debug</span><span class="PUNC">(</span><span class="NAME">validationLogMessage</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">		</span><span class="NAME">this.target.captureScreenWithName</span><span class="PUNC">(</span><span class="STRN">"SCREEN: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">validationLogMessage</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">		</span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"undefined"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">				</span><span class="NAME">validatorFunc</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">				</span><span class="NAME">validatorFunc</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">isTransientState</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">				</span><span class="NAME">IMAT.log_debug</span><span class="PUNC">(</span><span class="STRN">"Transient State Validation Failed, most likely "</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">					</span><span class="STRN">"due to an asynchronous state transition in the app. "</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">					</span><span class="STRN">"Exception is being ignored. "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">validationPrefix</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Validation Error: "</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">IMAT.AssertionException</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">					</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">IMAT.AssertionException</span><span class="PUNC">(</span><span class="NAME">validationPrefix</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'>113</span> 						</span><span class="NAME">e.toString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">					</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Test Script Error (Please Fix)- "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">		</span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"Validation on "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.viewName</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">": "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">stateName</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'>120</span> 			</span><span class="STRN">" state passed."</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">	
+<span class='line'>123</span> 	</span><span class="COMM">/**
+<span class='line'>124</span> 	 * Waits for activity indicators to finish before letting the automation 
+<span class='line'>125</span> 	 * move on. This function assumes that the intended activity indicator to 
+<span class='line'>126</span> 	 * wait on is the first one found below the parameter &lt;code>elem&lt;/code>.
+<span class='line'>127</span> 	 *
+<span class='line'>128</span> 	 * @param {UIAElement} elem
+<span class='line'>129</span> 	 * 						The element containing the UIAActivityIndicator 
+<span class='line'>130</span> 	 * 						element to be waited on. If no visible UIAElements 
+<span class='line'>131</span> 	 * 						are found, the automation will move on.
+<span class='line'>132</span> 	 * @param {number} timeout
+<span class='line'>133</span> 	 * 						The length of time to wait for activity before 
+<span class='line'>134</span> 	 * 						throwing an exception.
+<span class='line'>135</span> 	 *
+<span class='line'>136</span> 	 * @throws an exception if elem is not a valid element or if the timeout 
+<span class='line'>137</span> 	 * defined is not a number.
+<span class='line'>138</span> 	 */</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">	</span><span class="NAME">waitForActivity</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">elem</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">timeout</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">activityIndicator</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">elem.checkIsValid</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">timeout</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">			</span><span class="COMM">//find the first visible activity indicator</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">			</span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"Number of Activity indicators: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">elem.activityIndicators</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">elem.activityIndicators</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">				</span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"checking activity indicator with name: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">elem.activityIndicators</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">name</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">elem.activityIndicators</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">checkIsValid</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">elem.activityIndicators</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">isVisible</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">					</span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"found activity indicator"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">					</span><span class="NAME">activityIndicator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">elem.activityIndicators</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">					</span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"Activity indicator is valid: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">elem.activityIndicators</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">checkIsValid</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">					</span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"Activity indicator is visible: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">elem.activityIndicators</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">isVisible</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">activityIndicator</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">				</span><span class="NAME">this.target.pushTimeout</span><span class="PUNC">(</span><span class="NAME">timeout</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">				</span><span class="NAME">activityIndicator.waitForInvisible</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">				</span><span class="NAME">this.target.popTimeout</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">				</span><span class="NAME">IMAT.log_debug</span><span class="PUNC">(</span><span class="STRN">"No Visible activity indicators were found. Automation will continue"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">				</span><span class="NAME">IMAT.log_state</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	
+<span class='line'>162</span> 			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">			</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Exception while waiting for activity | elem is valid: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'>165</span> 				</span><span class="PUNC">(</span><span class="NAME">elem.checkIsValid</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"true"</span><span class="PUNC">:</span><span class="STRN">"false"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">", type of timeout: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">timeout</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">				</span><span class="STRN">". Elem should be valid and the timeout should be a number"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">	
+<span class='line'>170</span> 	</span><span class="COMM">/**
+<span class='line'>171</span> 	 * Dismisses the keyboard from view.
+<span class='line'>172</span> 	 *
+<span class='line'>173</span> 	 * @param {string} buttonName 
+<span class='line'>174</span> 	 * 						The name of the button on the keyboard used to 
+<span class='line'>175</span> 	 * 						dismiss the keyboard from view.
+<span class='line'>176</span> 	 * @param {number} throttle 
+<span class='line'>177</span> 	 * 						Optional. The timeout value we should throttle while
+<span class='line'>178</span> 	 *					 	attempting to tap the button that is to dismiss the 
+<span class='line'>179</span> 	 *						keyboard. 
+<span class='line'>180</span> 	 */</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">	 </span><span class="COMM">/*
+<span class='line'>182</span> 	 * TODO: Think about moving this somewhere else. Could it be an extension of the UIAWindow 
+<span class='line'>183</span> 	 * object?
+<span class='line'>184</span> 	 */</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">	</span><span class="NAME">dismissKeyboard</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">buttonName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">throttle</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">		</span><span class="NAME">this.refreshAppContext</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//TODO: Remove this if it has no effect on our tests succeeding.</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">		</span><span class="KEYW">try</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">throttle</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"undefined"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">				</span><span class="NAME">throttle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0.5</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">			</span><span class="NAME">this.target.pushTimeout</span><span class="PUNC">(</span><span class="NAME">throttle</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">			</span><span class="NAME">this.app.keyboard</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">withValueForKey</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"isVisible"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">			</span><span class="NAME">this.app.keyboard</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">buttons</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">firstWithName</span><span class="PUNC">(</span><span class="NAME">buttonName</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">tap</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">			</span><span class="NAME">this.app.keyboard</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">waitForInvalid</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">			</span><span class="NAME">this.target.popTimeout</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">		</span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">			</span><span class="NAME">IMAT.log_debug</span><span class="PUNC">(</span><span class="STRN">"Could not dismiss Keyboard."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">			</span><span class="NAME">IMAT.log_state</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">	
+<span class='line'>207</span> 	</span><span class="COMM">//This function is not documented on purpose as it is not to be used </span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">	</span><span class="COMM">//directly by a consuming project. Instead, the user should call one of the</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">	</span><span class="COMM">//functions that indirectly uses _retrieveElement. See this.getElementFromView,</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">	</span><span class="COMM">//this.getElement, this.isElementFromViewPresent and this.isElementPresent</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">	</span><span class="NAME">_retrieveElement</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">elementID</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">viewID</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">UIAElementNil</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">IMAT.viewMap</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">IMAT.viewMapPrefix</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">            </span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"View name is: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.viewName</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" viewID is: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">viewID</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">            </span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"Finding element: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">elementID</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">viewID</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">                </span><span class="NAME">viewID</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.viewName</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">            </span><span class="NAME">this.target.pushTimeout</span><span class="PUNC">(</span><span class="NUMB">5</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">locator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">IMAT.viewMap</span><span class="PUNC">[</span><span class="NAME">viewID</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">elementID</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">            </span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"the view map returned the following locator: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">locator</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">locator</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"function"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">            	</span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"Locator for "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">elementID</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" was a function."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">            	</span><span class="NAME">locatorArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">            	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">argInd</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">argInd</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">arguments.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">argInd</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="WHIT">            		</span><span class="NAME">locatorArgs.push</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">[</span><span class="NAME">argInd</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="WHIT">            	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">            	</span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">locator.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locatorArgs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">locator</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Array</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">            	</span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"Locator for "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">elementID</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" was an array."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">            	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tempElement</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">            	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">            	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">locator.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">            		</span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"evaluating: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">IMAT.viewMapPrefix</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">locator</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">                    </span><span class="NAME">tempElement</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">eval</span><span class="PUNC">(</span><span class="NAME">IMAT.viewMapPrefix</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">locator</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">            		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tempElement</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">tempElement</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">UIAElementNil</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">            			</span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tempElement</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">            			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">            		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">                    </span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"array locator not found in loop: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">IMAT.viewMapPrefix</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">locator</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">            	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">locator</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">            	</span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"Locator for "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">elementID</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" was a string."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">            	</span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">eval</span><span class="PUNC">(</span><span class="NAME">IMAT.viewMapPrefix</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">locator</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">            </span><span class="NAME">this.target.popTimeout</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">            </span><span class="NAME">IMAT.log_debug</span><span class="PUNC">(</span><span class="STRN">"Found "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" when searching for "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">elementID</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">            </span><span class="NAME">IMAT.log_warning</span><span class="PUNC">(</span><span class="STRN">"Both IMAT.viewMap and IMAT.viewMapPrefix must be defined to "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">            	</span><span class="STRN">"use IMAT.BaseView.getElement(). Cannot get element."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">    
+<span class='line'>256</span>     </span><span class="COMM">/**
+<span class='line'>257</span>      * Get an element defined within the {@link IMAT.viewMap}. &lt;b>Note&lt;/b>, the
+<span class='line'>258</span>      * view map is defined within the project when it is generated via the IMAT 
+<span class='line'>259</span>      * command line utility and contains a set of key-value pairs mapping the 
+<span class='line'>260</span>      * keys to locator values. These values can be one of three types:
+<span class='line'>261</span>      * &lt;ul>
+<span class='line'>262</span>      * &lt;li>A {@link String} representing the location of the element, like&lt;br/> 
+<span class='line'>263</span>      * &lt;code>refreshButton : ".navigationBar().buttons()[\"Refresh\"]",&lt;/code>&lt;br/>
+<span class='line'>264</span>      * In this case, the string is evaluated and the function simply returns the result.&lt;/li>
+<span class='line'>265</span>      * &lt;li>An {@link Array} of {@link String}s representing possible locations 
+<span class='line'>266</span>      * of the element, like &lt;br/>&lt;code>refreshButton : 
+<span class='line'>267</span>      * [".navigationBar().buttons()[\"Refresh\"]", ".navigationBar().buttons()[0]"],&lt;/code>&lt;br/>
+<span class='line'>268</span>      * In this case, each element in the array is evaluated until the first 
+<span class='line'>269</span>      * element is found and does not contain an undefined result or UIAElementNil.&lt;/li>
+<span class='line'>270</span>      * &lt;li>A {@link function} which returns the desired element.&lt;/li>
+<span class='line'>271</span>      * &lt;/ul>
+<span class='line'>272</span>      * More concretely, see the following example of a viewMap for an imaginary
+<span class='line'>273</span>      * project. Note the different types of locators. For the locators that are
+<span class='line'>274</span>      * of type {@type string}, the IMAT.viewMapPrefix is appended before evaluating
+<span class='line'>275</span>      * them.
+<span class='line'>276</span>      * 
+<span class='line'>277</span>      * @example
+<span class='line'>278</span>      * //viewMap.js for an imaginary project..
+<span class='line'>279</span>      * IMAT.viewMapPrefix = "UIATarget.localTarget().frontMostApp().mainWindow()";
+<span class='line'>280</span>      * IMAT.viewMap = {	
+<span class='line'>281</span>      * 	ItemListView : {
+<span class='line'>282</span>      * 		searchBar :  ".toolbars()[0].searchBars()[0]",
+<span class='line'>283</span>      * 		clearSearchButton :  [
+<span class='line'>284</span>      * 			".toolbars()[0].searchBars()[0].buttons().firstWithName(\"Clear text\")",
+<span class='line'>285</span>      * 			".toolbars()[0].searchBars()[0].buttons()[0]"],
+<span class='line'>286</span>      * 		listButton :  ".toolbars()[0].buttons()[1]",
+<span class='line'>287</span>      * 		itemWithName: function(name) {
+<span class='line'>288</span>      * 			return UIATarget.localTarget().frontMostApp().mainWindow().tableViews[0].cells()[name];
+<span class='line'>289</span>      * 		},
+<span class='line'>290</span>      * 	},
+<span class='line'>291</span>      * 	...
+<span class='line'>292</span>      * };
+<span class='line'>293</span>      * 
+<span class='line'>294</span>      * @param {string} elementID
+<span class='line'>295</span>      * 						The name of the property from the view map for the 
+<span class='line'>296</span>      * 						current view. When the value assigned to this 
+<span class='line'>297</span>      * 						property is evaluated, it should return the desired
+<span class='line'>298</span>      *						element currently on screen.
+<span class='line'>299</span>      * @param {string} viewID
+<span class='line'>300</span>      *                      The view within the view map to pull the element from.
+<span class='line'>301</span>      *                      This is helpful during instances where you might want
+<span class='line'>302</span>      *                      to inherit elements from a parent view, but don't want
+<span class='line'>303</span>      *                      to repeat the elementID in every child view. Instead,
+<span class='line'>304</span>      *                      you can call &lt;code>getElement()&lt;/code> from the parent 
+<span class='line'>305</span>      *                      view and specify the viewID of the more generic set of
+<span class='line'>306</span>      *                      locators. This is an optional argument. When it is not
+<span class='line'>307</span>      *                      set, viewID takes the same value as &lt;code>this.viewName&lt;code>
+<span class='line'>308</span>      *
+<span class='line'>309</span>      * @returns {@type UIAElement}
+<span class='line'>310</span>      * 
+<span class='line'>311</span>      * @requires IMAT.viewMap, A map of locators defining elements on 
+<span class='line'>312</span>      * each view. IMAT.viewMapPrefix, the prefix to all string based locators. 
+<span class='line'>313</span>      */</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">    </span><span class="NAME">getElementFromView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">elementID</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">viewID</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._retrieveElement.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">UIAElementNil</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="WHIT">        	</span><span class="NAME">IMAT.log_warning</span><span class="PUNC">(</span><span class="STRN">"Could not locate element: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">elementID</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'>318</span>         		</span><span class="STRN">" in view: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.viewName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">	
+<span class='line'>323</span>     </span><span class="COMM">/**
+<span class='line'>324</span>      * Get an element defined within the {@link IMAT.viewMap}. &lt;b>Note&lt;/b>, the
+<span class='line'>325</span>      * view map is defined within the project when it is generated via the IMAT 
+<span class='line'>326</span>      * command line utility and contains a set of key-value pairs mapping the 
+<span class='line'>327</span>      * keys to locator values. These values can be one of three types:
+<span class='line'>328</span>      * &lt;ul>
+<span class='line'>329</span>      * &lt;li>A {@link String} representing the location of the element, like&lt;br/> 
+<span class='line'>330</span>      * &lt;code>refreshButton : ".navigationBar().buttons()[\"Refresh\"]",&lt;/code>&lt;br/>
+<span class='line'>331</span>      * In this case, the string is evaluated and the function simply returns the result.&lt;/li>
+<span class='line'>332</span>      * &lt;li>An {@link Array} of {@link String}s representing possible locations 
+<span class='line'>333</span>      * of the element, like &lt;br/>&lt;code>refreshButton : 
+<span class='line'>334</span>      * [".navigationBar().buttons()[\"Refresh\"]", ".navigationBar().buttons()[0]"],&lt;/code>&lt;br/>
+<span class='line'>335</span>      * In this case, each element in the array is evaluated until the first 
+<span class='line'>336</span>      * element is found and does not contain an undefined result or UIAElementNil.&lt;/li>
+<span class='line'>337</span>      * &lt;li>A {@link function} which returns the desired element.&lt;/li>
+<span class='line'>338</span>      * &lt;/ul>
+<span class='line'>339</span>      * More concretely, see the following example of a viewMap for an imaginary
+<span class='line'>340</span>      * project. Note the different types of locators. For the locators that are
+<span class='line'>341</span>      * of type {@type string}, the IMAT.viewMapPrefix is appended before evaluating
+<span class='line'>342</span>      * them.
+<span class='line'>343</span>      * 
+<span class='line'>344</span>      * @example
+<span class='line'>345</span>      * //viewMap.js for an imaginary project..
+<span class='line'>346</span>      * IMAT.viewMapPrefix = "UIATarget.localTarget().frontMostApp().mainWindow()";
+<span class='line'>347</span>      * IMAT.viewMap = {	
+<span class='line'>348</span>      * 	ItemListView : {
+<span class='line'>349</span>      * 		searchBar :  ".toolbars()[0].searchBars()[0]",
+<span class='line'>350</span>      * 		clearSearchButton :  [
+<span class='line'>351</span>      * 			".toolbars()[0].searchBars()[0].buttons().firstWithName(\"Clear text\")",
+<span class='line'>352</span>      * 			".toolbars()[0].searchBars()[0].buttons()[0]"],
+<span class='line'>353</span>      * 		listButton :  ".toolbars()[0].buttons()[1]",
+<span class='line'>354</span>      * 		itemWithName: function(name) {
+<span class='line'>355</span>      * 			return UIATarget.localTarget().frontMostApp().mainWindow().tableViews[0].cells()[name];
+<span class='line'>356</span>      * 		},
+<span class='line'>357</span>      * 	},
+<span class='line'>358</span>      * 	...
+<span class='line'>359</span>      * };
+<span class='line'>360</span>      * 
+<span class='line'>361</span>      * @param {string} elementID
+<span class='line'>362</span>      * 						The name of the property from the view map for the 
+<span class='line'>363</span>      * 						current view. When the value assigned to this 
+<span class='line'>364</span>      * 						property is evaluated, it should return the desired
+<span class='line'>365</span>      *						element currently on screen.
+<span class='line'>366</span>      * 
+<span class='line'>367</span>      * @returns {@type UIAElement}
+<span class='line'>368</span>      * 
+<span class='line'>369</span>      * @requires IMAT.viewMap, A map of locators defining elements on 
+<span class='line'>370</span>      * each view. IMAT.viewMapPrefix, the prefix to all string based locators. 
+<span class='line'>371</span>      */</span><span class="WHIT">
+<span class='line'>372</span> </span><span class="WHIT">    </span><span class="NAME">getElement</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">elementID</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>373</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">locatorArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">elementID</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.viewName</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>374</span> </span><span class="WHIT">        </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">argInd</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">argInd</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">arguments.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">argInd</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">            </span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"Pushing Argument from getElement()"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>376</span> </span><span class="WHIT">            </span><span class="NAME">locatorArgs.push</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">[</span><span class="NAME">argInd</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>377</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>378</span> </span><span class="WHIT">        </span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"Passing the following Locator Args to "</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>379</span> </span><span class="WHIT">        	</span><span class="STRN">"getElementFromView(["</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">locatorArgs</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"])"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>380</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.getElementFromView.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locatorArgs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>381</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>382</span> </span><span class="WHIT">    
+<span class='line'>383</span>     </span><span class="COMM">/**
+<span class='line'>384</span> 	 * 	Safely determine if an element is present within the view. This function
+<span class='line'>385</span> 	 *  uses locators the same way that {@link IMAT.BaseView#getElement} does to
+<span class='line'>386</span> 	 *  locate the element in question Also note that this function will not 
+<span class='line'>387</span> 	 *  throw an exception if the element does not exist or the locator 
+<span class='line'>388</span> 	 *  evaluates to some non-valid function.
+<span class='line'>389</span> 	 *	
+<span class='line'>390</span> 	 *  @param {string} elementID
+<span class='line'>391</span> 	 *						The element ID of the viewMap locator which we wish
+<span class='line'>392</span> 	 * 						To test for existence
+<span class='line'>393</span> 	 *
+<span class='line'>394</span> 	 *  @param {string} viewID
+<span class='line'>395</span>      *                      The view within the view map to pull the element from.
+<span class='line'>396</span>      *                      This is helpful during instances where you might want
+<span class='line'>397</span>      *                      to inherit elements from a parent view, but don't want
+<span class='line'>398</span>      *                      to repeat the elementID in every child view. Instead,
+<span class='line'>399</span>      *                      you can call &lt;code>getElement()&lt;/code> from the parent 
+<span class='line'>400</span>      *                      view and specify the viewID of the more generic set of
+<span class='line'>401</span>      *                      locators. This is an optional argument. When it is not
+<span class='line'>402</span>      *                      set, viewID takes the same value as &lt;code>this.viewName&lt;code>
+<span class='line'>403</span> 	 * 
+<span class='line'>404</span> 	 *  @requires IMAT.viewMap 
+<span class='line'>405</span> 	 * 						A map of locators defining elements on each view. 
+<span class='line'>406</span> 	 * 						IMAT.viewMapPrefix, the prefix to all string based 
+<span class='line'>407</span>      * 						locators.
+<span class='line'>408</span> 	 *
+<span class='line'>409</span> 	 *  @returns {@type boolean} true if the object mapped to the element within  
+<span class='line'>410</span> 	 * 		the view map evaluates to true and is not an instance of 
+<span class='line'>411</span> 	 * 		UIAElementNil.
+<span class='line'>412</span> 	 *  
+<span class='line'>413</span> 	 *  @see IMAT.BaseView#getElementFromView
+<span class='line'>414</span> 	 */</span><span class="WHIT">
+<span class='line'>415</span> </span><span class="WHIT">    </span><span class="NAME">isElementFromViewPresent</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">elementID</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">viewID</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>416</span> </span><span class="WHIT">    	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">isElementPresent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">    	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>418</span> </span><span class="WHIT">    	</span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>419</span> </span><span class="WHIT">    		</span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._retrieveElement.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>420</span> </span><span class="WHIT">    		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">element</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">UIAElementNil</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>421</span> </span><span class="WHIT">    			</span><span class="NAME">isElementPresent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>422</span> </span><span class="WHIT">    		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>423</span> </span><span class="WHIT">    	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>424</span> </span><span class="WHIT">    		</span><span class="NAME">IMAT.log_info</span><span class="PUNC">(</span><span class="STRN">"An exception was thrown when trying to get element:"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>425</span> </span><span class="WHIT">    			</span><span class="STRN">" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">elementID</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" from view: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">viewID</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>426</span> </span><span class="WHIT">    	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>427</span> </span><span class="WHIT">    	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">isElementPresent</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>428</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>429</span> </span><span class="WHIT">    
+<span class='line'>430</span>     </span><span class="COMM">/**
+<span class='line'>431</span> 	 * 	Safely determine if an element is present within the view. This function
+<span class='line'>432</span> 	 *  uses locators the same way that {@link IMAT.BaseView#getElement} does to
+<span class='line'>433</span> 	 *  locate the element in question Also note that this function will not 
+<span class='line'>434</span> 	 *  throw an exception if the element does not exist or the locator 
+<span class='line'>435</span> 	 *  evaluates to some non-valid function.
+<span class='line'>436</span> 	 *	
+<span class='line'>437</span> 	 *  @param {string} elementID
+<span class='line'>438</span> 	 *						The element ID of the viewMap locator which we wish
+<span class='line'>439</span> 	 * 						To test for existence
+<span class='line'>440</span> 	 *  @requires IMAT.viewMap 
+<span class='line'>441</span> 	 * 						A map of locators defining elements on each view. 
+<span class='line'>442</span> 	 * 						IMAT.viewMapPrefix, the prefix to all string based 
+<span class='line'>443</span>      * 						locators.
+<span class='line'>444</span> 	 *
+<span class='line'>445</span> 	 *  @returns {@type boolean} true if the object mapped to the element within  
+<span class='line'>446</span> 	 * 		the view map evaluates to true and is not an instance of 
+<span class='line'>447</span> 	 * 		UIAElementNil.
+<span class='line'>448</span> 	 *  
+<span class='line'>449</span> 	 *  @see IMAT.BaseView#getElement
+<span class='line'>450</span> 	 */</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">    </span><span class="NAME">isElementPresent</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">elementID</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>452</span> </span><span class="WHIT">    	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">isElementPresent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>453</span> </span><span class="WHIT">    	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">locatorArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">elementID</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.viewName</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="WHIT">        </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">argInd</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">argInd</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">arguments.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">argInd</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>455</span> </span><span class="WHIT">            </span><span class="NAME">IMAT.log_trace</span><span class="PUNC">(</span><span class="STRN">"Pushing Argument from isElementPresent()"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>456</span> </span><span class="WHIT">            </span><span class="NAME">locatorArgs.push</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">[</span><span class="NAME">argInd</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>457</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>458</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.isElementFromViewPresent.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locatorArgs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>459</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>460</span> </span><span class="WHIT">	
+<span class='line'>461</span> 	</span><span class="COMM">/**
+<span class='line'>462</span> 	 * 	Do nothing for the desired number of seconds.
+<span class='line'>463</span> 	 *	@param {Number} seconds
+<span class='line'>464</span> 	 *						The number of seconds to wait. If a string is pased,
+<span class='line'>465</span> 	 *						will attempt to convert to an integer using parseInt.
+<span class='line'>466</span> 	 *						Currently, only decimal numbers are allowed. If the 
+<span class='line'>467</span> 	 *  					parameter parsed gives NaN, a warning is logged and 
+<span class='line'>468</span> 	 *						seconds is set to the value 0. 
+<span class='line'>469</span> 	 *  @returns this view.
+<span class='line'>470</span> 	 */</span><span class="WHIT">
+<span class='line'>471</span> </span><span class="WHIT">	</span><span class="NAME">waitAction</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">seconds</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>472</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">seconds</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>473</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>474</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">givenSeconds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">seconds</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>475</span> </span><span class="WHIT">			</span><span class="NAME">seconds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">seconds</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>476</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">isNaN</span><span class="PUNC">(</span><span class="NAME">seconds</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>477</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>478</span> </span><span class="WHIT">				</span><span class="NAME">seconds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>479</span> </span><span class="WHIT">				</span><span class="NAME">IMAT.log_warning</span><span class="PUNC">(</span><span class="STRN">"While calling waitAction, the given number of "</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>480</span> </span><span class="WHIT">				</span><span class="STRN">"seconds could not be parsed from a string into a number. Given "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>481</span> </span><span class="WHIT">				</span><span class="STRN">"number of seconds was: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">givenSeconds</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>482</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>484</span> </span><span class="WHIT">		</span><span class="NAME">this.target.delay</span><span class="PUNC">(</span><span class="NAME">seconds</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>485</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>486</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>487</span> </span><span class="WHIT">	
+<span class='line'>488</span> 	</span><span class="COMM">/**
+<span class='line'>489</span> 	 * For when a given test fails, this is is part of a larger iteration of 
+<span class='line'>490</span> 	 * escapeAction calls which enable our tests to keep running even if one fails
+<span class='line'>491</span> 	 * @ignore 
+<span class='line'>492</span> 	 */</span><span class="WHIT">
+<span class='line'>493</span> </span><span class="WHIT">	</span><span class="NAME">escapeAction</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>494</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="WHIT">		</span><span class="COMM">//do nothing.</span><span class="WHIT">
+<span class='line'>496</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>497</span> </span><span class="WHIT">	
+<span class='line'>498</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

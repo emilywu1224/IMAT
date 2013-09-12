@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - IMAT.BaseTestSet</title>
+		<title>JsDoc Reference - IMAT.BaseFunctionalTestSet</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -226,27 +226,43 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class IMAT.BaseTestSet
+				Class IMAT.BaseFunctionalTestSet
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
+				<br />Extends
+					<a href="../symbols/IMAT.BaseTestSet.html">IMAT.BaseTestSet</a>.<br />
 				
 			
-				The <a href="../symbols/IMAT.BaseTestSet.html">IMAT.BaseTestSet</a> is the most basic of all tests and 
-does nothing more than provide stubbed out methods that the 
-<a href="../symbols/IMAT.TestRunner.html">IMAT.TestRunner</a> expects and initialize some basic instance 
-variables related to its title etc.
+				The <a href="../symbols/IMAT.BaseFunctionalTestSet.html">IMAT.BaseFunctionalTestSet</a> object is common test set 
+	object to be extended by all tests doing testing at the UI level. 
+	<p>Since this
+ framework is primarily intended to be a UI testing framework, we assume that
+ most test sets will extend this class. However, if those assumptions prove
+ incorrect and you find yourself needing something entirely different, you 
+ are free to omit this as a parent class to your Test Sets and implement 
+ something that makes sense for  you.</p>
+ <p>On the other hand, if you are doing UI testing, it is strongly recommended
+ that you take advantage of the implementations this class provides.</p> 
+ <ul>
+		<li>Alert management at the test level so that you can test for expected
+		alerts and fail out when certain types of unexpected alerts occur.</li>
+		<li>Clean-up hooks to reset your application to a know good state after
+		an exception or a failure has occured.</li>
+ 	<li>The Perform actions function. This is the ""miracle method" that 
+		allows our tests to be readable as well as easy to triage.</li>
+ </ul>
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_BaseTestSet.js.html">BaseTestSet.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_platforms_ios_BaseFunctionalTestSet.js.html">BaseFunctionalTestSet.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class IMAT.BaseTestSet.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class IMAT.BaseFunctionalTestSet.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -259,9 +275,9 @@ variables related to its title etc.
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/IMAT.BaseTestSet.html#constructor">IMAT.BaseTestSet</a></b>()
+								<b><a href="../symbols/IMAT.BaseFunctionalTestSet.html#constructor">IMAT.BaseFunctionalTestSet</a></b>()
 							</div>
-							<div class="description">Constructs a <a href="../symbols/IMAT.BaseTestSet.html">IMAT.BaseTestSet</a>.</div>
+							<div class="description">Constructs a BaseFunctionalTestSet object</div>
 						</td>
 					</tr>
 				</tbody>
@@ -272,7 +288,7 @@ variables related to its title etc.
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class IMAT.BaseTestSet.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class IMAT.BaseFunctionalTestSet.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -286,20 +302,10 @@ variables related to its title etc.
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/IMAT.BaseTestSet.html#logOnFailure">logOnFailure</a></b>
+								<b><a href="../symbols/IMAT.BaseFunctionalTestSet.html#alertManager">alertManager</a></b>
 								</div>
-								<div class="description">A field that tells the TestRunner object to capture the state of the AUT
-when a test fails.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/IMAT.BaseTestSet.html#title">title</a></b>
-								</div>
-								<div class="description">The Title this test goes by.</div>
+								<div class="description">The alert manager used for testing scenarios when alerts are expected and 
+the user is suposed to take some sort of action.</div>
 							</td>
 						</tr>
 					
@@ -308,13 +314,17 @@ when a test fails.</div>
 				
 				
 				
+				<dl class="inheritsList">
+				<dt>Fields borrowed from class <a href="../symbols/IMAT.BaseTestSet.html">IMAT.BaseTestSet</a>: </dt><dd><a href="../symbols/IMAT.BaseTestSet.html#logOnFailure">logOnFailure</a>, <a href="../symbols/IMAT.BaseTestSet.html#title">title</a></dd>
+				</dl>
+				
 			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class IMAT.BaseTestSet.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class IMAT.BaseFunctionalTestSet.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -327,54 +337,41 @@ when a test fails.</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/IMAT.BaseTestSet.html#doCleanup">doCleanup</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/IMAT.BaseFunctionalTestSet.html#doCleanup">doCleanup</a></b>(attemptCount)
 								</div>
-								<div class="description">Do remaining cleanup work to clean up after test failures.</div>
+								<div class="description">Do any cleanup needed to make sure that subsequent tests run in a known 
+good state.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/IMAT.BaseTestSet.html#initialize">initialize</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/IMAT.BaseFunctionalTestSet.html#getBaseStateViewName">getBaseStateViewName</a></b>()
 								</div>
-								<div class="description"></div>
+								<div class="description">Get the name of the view which we consider to be the "Base State" when 
+recovering from a test failure.This implementation does nothing and 
+returns undefined.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/IMAT.BaseTestSet.html#setUp">setUp</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/IMAT.BaseFunctionalTestSet.html#getBaseView">getBaseView</a></b>()
 								</div>
-								<div class="description">The Base setUp function for the Test Harness.</div>
+								<div class="description">Return the base view which we consider to be the "Base State" when 
+recovering from a test failure.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/IMAT.BaseTestSet.html#setUpTestSet">setUpTestSet</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/IMAT.BaseFunctionalTestSet.html#performActions">performActions</a></b>(actions)
 								</div>
-								<div class="description">This is run before every test set.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/IMAT.BaseTestSet.html#tearDown">tearDown</a></b>()
-								</div>
-								<div class="description">The Base tearDown function for the Test Harness.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/IMAT.BaseTestSet.html#tearDownTestSet">tearDownTestSet</a></b>()
-								</div>
-								<div class="description">This is run after every test set.</div>
+								<div class="description">Performs a set of actions defined by the two dimensional actions array 
+passed in.</div>
 							</td>
 						</tr>
 					
@@ -382,6 +379,10 @@ when a test fails.</div>
 				</table>
 				
 				
+				
+				<dl class="inheritsList">
+				<dt>Methods borrowed from class <a href="../symbols/IMAT.BaseTestSet.html">IMAT.BaseTestSet</a>: </dt><dd><a href="../symbols/IMAT.BaseTestSet.html#initialize">initialize</a>, <a href="../symbols/IMAT.BaseTestSet.html#setUp">setUp</a>, <a href="../symbols/IMAT.BaseTestSet.html#setUpTestSet">setUpTestSet</a>, <a href="../symbols/IMAT.BaseTestSet.html#tearDown">tearDown</a>, <a href="../symbols/IMAT.BaseTestSet.html#tearDownTestSet">tearDownTestSet</a></dd>
+				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -395,11 +396,11 @@ when a test fails.</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>IMAT.BaseTestSet</b>()
+						<b>IMAT.BaseFunctionalTestSet</b>()
 				</div>
 				
 				<div class="description">
-					Constructs a <a href="../symbols/IMAT.BaseTestSet.html">IMAT.BaseTestSet</a>.
+					Constructs a BaseFunctionalTestSet object
 					
 				</div>
 				
@@ -423,43 +424,32 @@ when a test fails.</div>
 					Field Detail
 				</div>
 				
-					<a name="logOnFailure"> </a>
+					<a name="alertManager"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{boolean}</span>
-					<b>logOnFailure</b>
+					
+					<b>alertManager</b>
 					
 					</div>
 					<div class="description">
-						A field that tells the TestRunner object to capture the state of the AUT
-when a test fails. When truthy, the <a href="../symbols/IMAT.TestRunner.html">IMAT.TestRunner</a> class will 
-call <code>IMAT.log_state()</code> after a test fails. When falsy, the 
-<a href="../symbols/IMAT.TestRunner.html">IMAT.TestRunner</a> will not capture any state.
+						The alert manager used for testing scenarios when alerts are expected and 
+the user is suposed to take some sort of action.
 						
 						
 					</div>
 					
 					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="title"> </a>
-					<div class="fixedFont">
 					
-					<span class="light">{<a href="../symbols/String.html">String</a>}</span>
-					<b>title</b>
-					
-					</div>
-					<div class="description">
-						The Title this test goes by. Used to identify this test in the logs.
-						
-						
-					</div>
+					<pre class="code">//...within some Test Set...
+testIncorrectPasswordOnLogin: function() {
+	this.alertManager.handleAlertWithTitleAndButtonClick("Incorrect Password", "Reset");
+	this.performActions([
+		["login", "testUser", "badPassword"],
+		["wait", 10], //wait for the alert to pop up and be handled.
+		["validateResetPassword"]
+	]); 
+	this.alertManager.resetAlertHandler();
+},</pre>
 					
 					
 
@@ -481,12 +471,57 @@ call <code>IMAT.log_state()</code> after a test fails. When falsy, the
 					<a name="doCleanup"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{undefined}</span>
-					<b>doCleanup</b>()
+					
+					<b>doCleanup</b>(attemptCount)
 					
 					</div>
 					<div class="description">
-						Do remaining cleanup work to clean up after test failures.
+						Do any cleanup needed to make sure that subsequent tests run in a known 
+good state. This function iteratively calls escapeAction on the current 
+view context until the returned context is not set.
+
+If the escapeAction ever throws an exception, we attempt to discover what 
+view we are on and try the escape process again. This will happen up to 5 
+times before we give up.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>attemptCount</b>
+									
+								</dt>
+								<dd>The number of attempt counts we have left.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getBaseStateViewName"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getBaseStateViewName</b>()
+					
+					</div>
+					<div class="description">
+						Get the name of the view which we consider to be the "Base State" when 
+recovering from a test failure.This implementation does nothing and 
+returns undefined. You must override this in order to get test recovery 
+working correctly.
 						
 						
 					</div>
@@ -501,8 +536,7 @@ call <code>IMAT.log_state()</code> after a test fails. When falsy, the
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{undefined}</span> The framework expects no values to be returned 
-					from this function.</dd>
+								<dd>String The name of our base view for all functional tests.</dd>
 							
 							</dl>
 						
@@ -511,41 +545,18 @@ call <code>IMAT.log_state()</code> after a test fails. When falsy, the
 
 					<hr />
 				
-					<a name="initialize"> </a>
+					<a name="getBaseView"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>initialize</b>()
+					<span class="light">{<a href="../symbols/IMAT.BaseView.html">IMAT.BaseView</a>}</span>
+					<b>getBaseView</b>()
 					
 					</div>
 					<div class="description">
-						
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="setUp"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{undefined}</span>
-					<b>setUp</b>()
-					
-					</div>
-					<div class="description">
-						The Base setUp function for the Test Harness. setUp() is run before every 
-test case in a test set.
+						Return the base view which we consider to be the "Base State" when 
+recovering from a test failure. This implementation does nothing and 
+returns undefined. You must override this in order to get test recovery 
+working correctly.
 						
 						
 					</div>
@@ -560,8 +571,7 @@ test case in a test set.
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{undefined}</span> The framework expects no values to be returned 
-					from this function.</dd>
+								<dd><span class="light fixedFont">{<a href="../symbols/IMAT.BaseView.html">IMAT.BaseView</a>}</span> The View we are trying to get to.</dd>
 							
 							</dl>
 						
@@ -570,104 +580,60 @@ test case in a test set.
 
 					<hr />
 				
-					<a name="setUpTestSet"> </a>
+					<a name="performActions"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{undefined}</span>
-					<b>setUpTestSet</b>()
+					
+					<b>performActions</b>(actions)
 					
 					</div>
 					<div class="description">
-						This is run before every test set. Note that it is a higher level setUp 
-function than the plain setUp function because it sets up a whole set of 
-test cases at once.
+						Performs a set of actions defined by the two dimensional actions array 
+passed in.
+<p>When perform actions is called, it automatically updates the view
+context to the resulting view of each action. Furthermore it logs action
+information to aid in triage when tests fail.</p> 
+<p>Notice the example below. Each action array starts with the name of 
+the action, and is followed by the parameters to that action. This is 
+also a very easy format to read what the test does and understand it
+without much prior knowledge of JavaScript or the framework within.</p>
 						
 						
 					</div>
 					
 					
 					
-						
-						
-						
-						
+					<pre class="code">//...within some test set....
+testSearchEnterTermAndClear: function() {
+	this.performActions([
+		["search", "Carrots"],
+		["validateItemPresent", "Carrots"],
+		["clearSerachTerm"]
+	]);
+},</pre>
+					
+					
+					
 						
 							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
+							<dt class="heading">Parameters:</dt>
 							
-								<dd><span class="light fixedFont">{undefined}</span> The framework expects no values to be returned 
-					from this function.</dd>
+								<dt>
+									<span class="light fixedFont">{Array}</span> <b>actions</b>
+									
+								</dt>
+								<dd>Where each element in the actions array is another 
+					Array. The first element in the sub-array should 
+ 				be a string representing an action method of the current
+ 				viewContext (<code>this.viewContext</code>) of the test. 
+					The rest of the elements in the array are interpreted as
+					parameters to that method.</dd>
 							
 							</dl>
 						
 						
 						
-
-					<hr />
-				
-					<a name="tearDown"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{undefined}</span>
-					<b>tearDown</b>()
-					
-					</div>
-					<div class="description">
-						The Base tearDown function for the Test Harness. tearDown() is run after 
-every test case in a test set.
 						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{undefined}</span> The framework expects no values to be returned 
-					from this function.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="tearDownTestSet"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{undefined}</span>
-					<b>tearDownTestSet</b>()
-					
-					</div>
-					<div class="description">
-						This is run after every test set. Note that it is a higher level tearDown 
-function than the plain tearDown function because it tears down a whole 
-set of test cases at once.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{undefined}</span> The framework expects no values to be returned 
-					from this function.</dd>
-							
-							</dl>
 						
 						
 						

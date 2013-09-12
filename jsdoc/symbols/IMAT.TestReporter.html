@@ -189,13 +189,17 @@ ul.inheritsList
 <h2>Classes</h2>
 <ul class="classList">
 	
-	<li><i><a href="../symbols/global.html">global</a></i></li>
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
 	<li><a href="../symbols/IMAT.html">IMAT</a></li>
 	
 	<li><a href="../symbols/IMAT.AssertionException.html">IMAT.AssertionException</a></li>
 	
+	<li><a href="../symbols/IMAT.BaseFunctionalTestSet.html">IMAT.BaseFunctionalTestSet</a></li>
+	
 	<li><a href="../symbols/IMAT.BaseTestSet.html">IMAT.BaseTestSet</a></li>
+	
+	<li><a href="../symbols/IMAT.BaseView.html">IMAT.BaseView</a></li>
 	
 	<li><a href="../symbols/IMAT.logLevels.html">IMAT.logLevels</a></li>
 	
@@ -210,6 +214,8 @@ ul.inheritsList
 	<li><a href="../symbols/IMAT.TestReporter.html">IMAT.TestReporter</a></li>
 	
 	<li><a href="../symbols/IMAT.TestRunner.html">IMAT.TestRunner</a></li>
+	
+	<li><a href="../symbols/String.html">String</a></li>
 	
 </ul>
 <hr />
@@ -233,7 +239,7 @@ maintains data to keep track of test counts, pass/failure rates, and will
 report on the number of manual vs. automated tests there are in a code base.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/TestReporter.js.html">TestReporter.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_TestReporter.js.html">TestReporter.js</a>.
 				
 			</p>
 
@@ -281,6 +287,24 @@ report on the number of manual vs. automated tests there are in a code base.
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/IMAT.TestReporter.html#addTest">addTest</a></b>(testSignature)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/IMAT.TestReporter.html#collectResultsOfTests">collectResultsOfTests</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/IMAT.TestReporter.html#isManualTest">isManualTest</a></b>(The)
 								</div>
 								<div class="description">Determine if a test is a manual test based on it's signature.</div>
@@ -299,7 +323,34 @@ report on the number of manual vs. automated tests there are in a code base.
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/IMAT.TestReporter.html#listTests">listTests</a></b>(testArray)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/IMAT.TestReporter.html#markTestAsRanWithResult">markTestAsRanWithResult</a></b>(testSignature, testResult)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/IMAT.TestReporter.html#reportProjection">reportProjection</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/IMAT.TestReporter.html#reportRetrospective">reportRetrospective</a></b>()
 								</div>
 								<div class="description"></div>
 							</td>
@@ -353,6 +404,67 @@ report on the number of manual vs. automated tests there are in a code base.
 					Method Detail
 				</div>
 				
+					<a name="addTest"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addTest</b>(testSignature)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>testSignature</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="collectResultsOfTests"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>collectResultsOfTests</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="isManualTest"> </a>
 					<div class="fixedFont">
 					
@@ -374,7 +486,7 @@ manual test if the function name starts with "testManually"
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{String}</span> <b>The</b>
+									<span class="light fixedFont">{<a href="../symbols/String.html">String</a>}</span> <b>The</b>
 									
 								</dt>
 								<dd>signature of the test.</dd>
@@ -440,11 +552,114 @@ manual test if the function name starts with "testManually"
 
 					<hr />
 				
+					<a name="listTests"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>listTests</b>(testArray)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>testArray</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="markTestAsRanWithResult"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>markTestAsRanWithResult</b>(testSignature, testResult)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>testSignature</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>testResult</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="reportProjection"> </a>
 					<div class="fixedFont">
 					
 					
 					<b>reportProjection</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="reportRetrospective"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>reportRetrospective</b>()
 					
 					</div>
 					<div class="description">
@@ -477,7 +692,7 @@ manual test if the function name starts with "testManually"
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Jun 04 2013 07:59:12 GMT-0700 (PDT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Sep 12 2013 13:57:28 GMT-0700 (PDT)
 		</div>
 	</body>
 </html>

@@ -1,0 +1,63 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*******************************************************************************
+<span class='line'>  2</span> * Copyright (c) 2011 Intuit, Inc.
+<span class='line'>  3</span> * All rights reserved. This program and the accompanying materials
+<span class='line'>  4</span> * are made available under the terms of the Eclipse Public License v1.0
+<span class='line'>  5</span> * which accompanies this distribution, and is available at
+<span class='line'>  6</span> * http://www.opensource.org/licenses/eclipse-1.0.php
+<span class='line'>  7</span> * 
+<span class='line'>  8</span> * Contributors:
+<span class='line'>  9</span> *     Intuit, Inc - initial API and implementation
+<span class='line'> 10</span> *******************************************************************************/</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="COMM">/**
+<span class='line'> 12</span>  * Generate a random number between minVal and maxVal.
+<span class='line'> 13</span>  * @param {number} minVal 
+<span class='line'> 14</span>  * 					The minimum allowed value in the range of randomly generated 
+<span class='line'> 15</span>  * 					numbers.
+<span class='line'> 16</span>  * @param {number} maxVal 
+<span class='line'> 17</span>  * 					The maximum allowed value in the range of randomly generated 
+<span class='line'> 18</span>  * 					numbers.
+<span class='line'> 19</span>  * @param {boolean} floatVal 
+<span class='line'> 20</span>  * 					true if the randomly generated number should be a fload 
+<span class='line'> 21</span>  * 					value. If true, will return an integer.
+<span class='line'> 22</span>  * 
+<span class='line'> 23</span>  * @return {number} a random number between minVal and maxVal.
+<span class='line'> 24</span>  */</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="NAME">IMAT.randomXToY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">minVal</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">maxVal</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">floatVal</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">randVal</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">minVal</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">Math.random</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">maxVal</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">minVal</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">floatVal</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">  </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">  	</span><span class="NAME">randVal</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.round</span><span class="PUNC">(</span><span class="NAME">randVal</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">  </span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">  </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">  	</span><span class="NAME">randVal</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">randVal.toFixed</span><span class="PUNC">(</span><span class="NAME">floatVal</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">randVal</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span> </span><span class="COMM">/**
+<span class='line'> 40</span>  * Get the current time in milliseconds.
+<span class='line'> 41</span>  * @return {number} The number of milliseconds since Jan 1, 1970 (Unix Epoch) 
+<span class='line'> 42</span>  */</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="NAME">IMAT.getTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">d</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">d.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="COMM">/**
+<span class='line'> 50</span>  * Generate a psuedo random phone number.
+<span class='line'> 51</span>  * @return {string} A random phone number of the form NNN-NNN-NNNN 
+<span class='line'> 52</span>  */</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="NAME">IMAT.generatePhoneNumber</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">IMAT.randomXToY</span><span class="PUNC">(</span><span class="NUMB">100</span><span class="PUNC">,</span><span class="NUMB">999</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"-"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">IMAT.randomXToY</span><span class="PUNC">(</span><span class="NUMB">100</span><span class="PUNC">,</span><span class="NUMB">999</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"-"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">IMAT.randomXToY</span><span class="PUNC">(</span><span class="NUMB">1000</span><span class="PUNC">,</span><span class="NUMB">9999</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

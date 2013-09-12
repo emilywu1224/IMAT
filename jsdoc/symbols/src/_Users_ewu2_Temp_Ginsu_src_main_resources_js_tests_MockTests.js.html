@@ -1,0 +1,40 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*******************************************************************************
+<span class='line'>  2</span> * Copyright (c) 2011 Intuit, Inc.
+<span class='line'>  3</span> * All rights reserved. This program and the accompanying materials
+<span class='line'>  4</span> * are made available under the terms of the Eclipse Public License v1.0
+<span class='line'>  5</span> * which accompanies this distribution, and is available at
+<span class='line'>  6</span> * http://www.opensource.org/licenses/eclipse-1.0.php
+<span class='line'>  7</span> * 
+<span class='line'>  8</span> * Contributors:
+<span class='line'>  9</span> *     Intuit, Inc - initial API and implementation
+<span class='line'> 10</span> *******************************************************************************/</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="COMM">/**
+<span class='line'> 12</span>  * This class is a mock class used for testing that the TestRunner can accurately find the right
+<span class='line'> 13</span>  * test methods.
+<span class='line'> 14</span>  * @ignore 
+<span class='line'> 15</span>  */</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="NAME">IMAT.MockTests</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Class.extend</span><span class="PUNC">(</span><span class="NAME">IMAT.BaseTestSet</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">	
+<span class='line'> 18</span> 	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">	</span><span class="NAME">myTests</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"test1"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"testA"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"testa"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"test_a"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"testAtest"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"testNeedle"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"test4LeafClover"</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">	</span><span class="NAME">myNonTests</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"test"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Atest"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"foo"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"TestA"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"testB"</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">	</span><span class="NAME">test1</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">	</span><span class="NAME">testA</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">	</span><span class="NAME">testa</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="NAME">test_a</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="NAME">testAtest</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">	</span><span class="NAME">testNeedle</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">	</span><span class="NAME">test4LeafClover</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">	</span><span class="NAME">test</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">	</span><span class="NAME">Atest</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">	</span><span class="NAME">foo</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="NAME">TestA</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">	</span><span class="NAME">testB</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

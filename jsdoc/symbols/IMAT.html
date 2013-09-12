@@ -189,13 +189,17 @@ ul.inheritsList
 <h2>Classes</h2>
 <ul class="classList">
 	
-	<li><i><a href="../symbols/global.html">global</a></i></li>
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
 	<li><a href="../symbols/IMAT.html">IMAT</a></li>
 	
 	<li><a href="../symbols/IMAT.AssertionException.html">IMAT.AssertionException</a></li>
 	
+	<li><a href="../symbols/IMAT.BaseFunctionalTestSet.html">IMAT.BaseFunctionalTestSet</a></li>
+	
 	<li><a href="../symbols/IMAT.BaseTestSet.html">IMAT.BaseTestSet</a></li>
+	
+	<li><a href="../symbols/IMAT.BaseView.html">IMAT.BaseView</a></li>
 	
 	<li><a href="../symbols/IMAT.logLevels.html">IMAT.logLevels</a></li>
 	
@@ -210,6 +214,8 @@ ul.inheritsList
 	<li><a href="../symbols/IMAT.TestReporter.html">IMAT.TestReporter</a></li>
 	
 	<li><a href="../symbols/IMAT.TestRunner.html">IMAT.TestRunner</a></li>
+	
+	<li><a href="../symbols/String.html">String</a></li>
 	
 </ul>
 <hr />
@@ -234,7 +240,7 @@ ul.inheritsList
  types of consumers of this framework.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/IMAT.js.html">IMAT.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_IMAT.js.html">IMAT.js</a>.
 				
 			</p>
 
@@ -271,6 +277,162 @@ ul.inheritsList
 			
 
 <!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class IMAT.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.exceptionStartsWithMessage">exceptionStartsWithMessage</a></b>(e, message)
+								</div>
+								<div class="description">This is a helper function to handle the fact that JavaScript will sometimes 
+throw strings as exceptions while at other times throw full fledged exception 
+objects.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.generatePhoneNumber">generatePhoneNumber</a></b>()
+								</div>
+								<div class="description">Generate a psuedo random phone number.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.getTime">getTime</a></b>()
+								</div>
+								<div class="description">Get the current time in milliseconds.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.indexOfFirstWithName">indexOfFirstWithName</a></b>(elementArray, name)
+								</div>
+								<div class="description">Returns the index within the array of the first element with its name
+matching the supplied elementName.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.log_debug">log_debug</a></b>(message)
+								</div>
+								<div class="description">Logs a debug message if the log level matches.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.log_error">log_error</a></b>(message)
+								</div>
+								<div class="description">Logs an error if the log level matches.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.log_fail">log_fail</a></b>(message)
+								</div>
+								<div class="description">Log a failure message to mark a test as failed.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.log_info">log_info</a></b>(message)
+								</div>
+								<div class="description">Logs an info message if the log level matches.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.log_issue">log_issue</a></b>(message)
+								</div>
+								<div class="description">Log an issue message to mark a test as needing attention.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.log_pass">log_pass</a></b>(message)
+								</div>
+								<div class="description">Log a pass message to mark a test as passed.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.log_start">log_start</a></b>(message)
+								</div>
+								<div class="description">Logs a trace message if the log level matches.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.log_state">log_state</a></b>(message)
+								</div>
+								<div class="description">Log the state of the application under test (AUT)</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.log_trace">log_trace</a></b>(message)
+								</div>
+								<div class="description">Logs a trace message if the log level matches.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.log_warning">log_warning</a></b>(message)
+								</div>
+								<div class="description">Logs a warning if the log level matches.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">IMAT.<b><a href="../symbols/IMAT.html#.randomXToY">randomXToY</a></b>(minVal, maxVal, floatVal)
+								</div>
+								<div class="description">Generate a random number between minVal and maxVal.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -310,6 +472,643 @@ ul.inheritsList
 
 <!-- ============================== method details ========================= -->		
 			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name=".exceptionStartsWithMessage"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{boolean}</span>
+					<span class="light">IMAT.</span><b>exceptionStartsWithMessage</b>(e, message)
+					
+					</div>
+					<div class="description">
+						This is a helper function to handle the fact that JavaScript will sometimes 
+throw strings as exceptions while at other times throw full fledged exception 
+objects. It determines if a message is part of a given exception.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_utils_exceptions.js.html">exceptions.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{mixed}</span> <b>e</b>
+									
+								</dt>
+								<dd>The exception we are handling.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>message</b>
+									
+								</dt>
+								<dd>The message to check for</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{boolean}</span> true if message is part of the thrown exception.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".generatePhoneNumber"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{string}</span>
+					<span class="light">IMAT.</span><b>generatePhoneNumber</b>()
+					
+					</div>
+					<div class="description">
+						Generate a psuedo random phone number.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_utils_generators.js.html">generators.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{string}</span> A random phone number of the form NNN-NNN-NNNN</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getTime"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{number}</span>
+					<span class="light">IMAT.</span><b>getTime</b>()
+					
+					</div>
+					<div class="description">
+						Get the current time in milliseconds.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_utils_generators.js.html">generators.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{number}</span> The number of milliseconds since Jan 1, 1970 (Unix Epoch)</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".indexOfFirstWithName"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{number}</span>
+					<span class="light">IMAT.</span><b>indexOfFirstWithName</b>(elementArray, name)
+					
+					</div>
+					<div class="description">
+						Returns the index within the array of the first element with its name
+matching the supplied elementName.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_platforms_ios_UIAElementArrayUtils.js.html">UIAElementArrayUtils.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{UIAElementArray}</span> <b>elementArray</b>
+									
+								</dt>
+								<dd>The array containing the elements to search.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>name</b>
+									
+								</dt>
+								<dd>The name of the element to find. NOTE: This is case 
+						sensitive.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{number}</span> The whole number representing the index of the element 
+within the array. If not found, this element will be undefined.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".log_debug"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">IMAT.</span><b>log_debug</b>(message)
+					
+					</div>
+					<div class="description">
+						Logs a debug message if the log level matches.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_platforms_ios_logger.js.html">logger.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>message</b>
+									
+								</dt>
+								<dd>string - The message to be logged</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".log_error"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">IMAT.</span><b>log_error</b>(message)
+					
+					</div>
+					<div class="description">
+						Logs an error if the log level matches. Will take a screenshot if the tests are running on the
+device.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_platforms_ios_logger.js.html">logger.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>message</b>
+									
+								</dt>
+								<dd>string - The message to be logged</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".log_fail"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">IMAT.</span><b>log_fail</b>(message)
+					
+					</div>
+					<div class="description">
+						Log a failure message to mark a test as failed.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_platforms_ios_logger.js.html">logger.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>message</b>
+									
+								</dt>
+								<dd>string - The message to be logged</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".log_info"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">IMAT.</span><b>log_info</b>(message)
+					
+					</div>
+					<div class="description">
+						Logs an info message if the log level matches.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_platforms_ios_logger.js.html">logger.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>message</b>
+									
+								</dt>
+								<dd>string - The message to be logged</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".log_issue"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">IMAT.</span><b>log_issue</b>(message)
+					
+					</div>
+					<div class="description">
+						Log an issue message to mark a test as needing attention.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_platforms_ios_logger.js.html">logger.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>message</b>
+									
+								</dt>
+								<dd>string - The message to be logged</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".log_pass"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">IMAT.</span><b>log_pass</b>(message)
+					
+					</div>
+					<div class="description">
+						Log a pass message to mark a test as passed.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_platforms_ios_logger.js.html">logger.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>message</b>
+									
+								</dt>
+								<dd>string - The message to be logged</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".log_start"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">IMAT.</span><b>log_start</b>(message)
+					
+					</div>
+					<div class="description">
+						Logs a trace message if the log level matches.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_platforms_ios_logger.js.html">logger.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>message</b>
+									
+								</dt>
+								<dd>string - The message to be logged</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".log_state"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">IMAT.</span><b>log_state</b>(message)
+					
+					</div>
+					<div class="description">
+						Log the state of the application under test (AUT)
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_platforms_ios_logger.js.html">logger.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>message</b>
+									
+								</dt>
+								<dd>string - The message to be logged</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".log_trace"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">IMAT.</span><b>log_trace</b>(message)
+					
+					</div>
+					<div class="description">
+						Logs a trace message if the log level matches.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_platforms_ios_logger.js.html">logger.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>message</b>
+									
+								</dt>
+								<dd>string - The message to be logged</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".log_warning"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">IMAT.</span><b>log_warning</b>(message)
+					
+					</div>
+					<div class="description">
+						Logs a warning if the log level matches. Will take a screenshot if the tests are running on the
+device.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_platforms_ios_logger.js.html">logger.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>message</b>
+									
+								</dt>
+								<dd>string - The message to be logged</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".randomXToY"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{number}</span>
+					<span class="light">IMAT.</span><b>randomXToY</b>(minVal, maxVal, floatVal)
+					
+					</div>
+					<div class="description">
+						Generate a random number between minVal and maxVal.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/_Users_ewu2_Temp_Ginsu_src_main_resources_js_utils_generators.js.html">generators.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>minVal</b>
+									
+								</dt>
+								<dd>The minimum allowed value in the range of randomly generated 
+					numbers.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{number}</span> <b>maxVal</b>
+									
+								</dt>
+								<dd>The maximum allowed value in the range of randomly generated 
+					numbers.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>floatVal</b>
+									
+								</dt>
+								<dd>true if the randomly generated number should be a fload 
+					value. If true, will return an integer.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{number}</span> a random number between minVal and maxVal.</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				
+			
 			
 <!-- ============================== event details ========================= -->		
 			
@@ -321,7 +1120,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Jun 04 2013 07:59:12 GMT-0700 (PDT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Sep 12 2013 13:57:27 GMT-0700 (PDT)
 		</div>
 	</body>
 </html>
